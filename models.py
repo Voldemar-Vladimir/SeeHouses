@@ -8,18 +8,19 @@ SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 class Booking(Base):
     __tablename__ = 'bookings'
-    home_id = Column(Integer)
     id = Column(Integer, primary_key=True)
-    check_in= Column(Date)
-    check_out= Column(Date)
+    home_id = Column(Integer)
+    check_in = Column(Date)
+    check_out = Column(Date)
     name = Column(String)
     phone = Column(String)
     email = Column(String)
     mini_bar = Column(Boolean, default=False)
     transfer = Column(Boolean, default=False)
     total_price = Column(Integer)
-    status = Column(String,default='new')
+    status = Column(String, default='new')
     created_at = Column(DateTime, default=datetime.utcnow)
-    peoples= Column(String)
+    peoples = Column(String)   # сколько человек
+    # city удалён
 
 Base.metadata.create_all(bind=engine)

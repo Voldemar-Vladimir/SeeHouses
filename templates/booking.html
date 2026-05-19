@@ -6,7 +6,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
-    <!-- Flatpickr CSS + русский -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
@@ -20,7 +19,6 @@
     <form action="/booking" method="post" id="bookingForm">
         <input type="hidden" name="home_id" value="${home_id}">
         <div class="row mt-4">
-            <!-- Левая колонка: фото комнат каруселью -->
             <div class="col-md-6 mb-4">
                 <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner rounded-4 shadow">
@@ -42,9 +40,7 @@
                 </div>
             </div>
 
-            <!-- Правая колонка: форма -->
             <div class="col-md-6">
-                <!-- Поля с flatpickr – клик в любом месте открывает календарь -->
                 <div class="mb-3">
                     <label class="form-label"><i class="bi bi-calendar-check"></i> Заезд</label>
                     <input type="text" name="check_in" id="check_in" class="form-control" placeholder="Выберите дату заезда" required>
@@ -76,31 +72,19 @@
                         <option value="Больше">Больше</option>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-geo-alt"></i> Откуда вы?</label>
-                    <select name="departure_city" class="form-select">
-                        <option value="Ростов">Ростов</option>
-                        <option value="Азов">Азов</option>
-                        <option value="Батайск">Батайск</option>
-                        <option value="Аксай">Аксай</option>
-                        <option value="Таганрог">Таганрог</option>
-                        <option value="Другое">Другое</option>
-                    </select>
-                </div>
 
                 <h5 class="mt-4"><i class="bi bi-plus-circle"></i> Дополнительно</h5>
                 <div class="d-flex flex-wrap gap-2 mt-2">
                     <div class="form-check service-check">
                         <input class="form-check-input service" type="checkbox" name="mini_bar" data-price="4000" id="miniBar">
-                        <label class="form-check-label" for="miniBar">🍷 Мини-бар +4000 ₽</label>
+                        <label class="form-check-label" for="miniBar">🍷 Мини-бар</label>
                     </div>
                     <div class="form-check service-check">
-                        <input class="form-check-input service" type="checkbox" name="transfer" data-price="1000" id="transfer">
-                        <label class="form-check-label" for="transfer">🚗 Трансфер +1000 ₽</label>
+                        <input class="form-check-input service" type="checkbox" name="transfer" id="transfer" data-price="1000">
+                        <label class="form-check-label" for="transfer">🚗 Доставка гостей в дом</label>
                     </div>
                 </div>
 
-                <!-- Итоговая цена -->
                 <div class="total-block mt-4 d-flex justify-content-between align-items-center">
                     <span class="fw-bold fs-5">💰 Итого к оплате:</span>
                     <span id="totalPrice" class="fw-bold fs-1 text-success">0</span>
@@ -116,11 +100,9 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Flatpickr JS + русская локализация -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
 <script>
-    // Функция пересчёта цены (осталась без изменений, но теперь работает с flatpickr)
     function calculateTotal() {
         let checkIn = document.getElementById('check_in').value;
         let checkOut = document.getElementById('check_out').value;
@@ -140,38 +122,23 @@
         document.getElementById('totalPrice').innerText = total > 0 ? total : 0;
     }
 
-    // Инициализация flatpickr для полей дат
     document.addEventListener('DOMContentLoaded', function() {
-        // Поле Заезд
         flatpickr("#check_in", {
             locale: "ru",
             dateFormat: "Y-m-d",
             minDate: "today",
             onChange: function(selectedDates, dateStr, instance) {
-                // Обновляем минимальную дату для выезда
-                if (check_out_flatpickr) {
-                    check_out_flatpickr.set('minDate', dateStr);
-                }
+                if (check_out_flatpickr) check_out_flatpickr.set('minDate', dateStr);
                 calculateTotal();
             }
         });
-
-        // Поле Выезд
         let check_out_flatpickr = flatpickr("#check_out", {
             locale: "ru",
             dateFormat: "Y-m-d",
             minDate: "today",
-            onChange: function() {
-                calculateTotal();
-            }
+            onChange: calculateTotal
         });
-
-        // Вешаем пересчёт на чекбоксы
-        document.querySelectorAll('.service').forEach(cb => {
-            cb.addEventListener('change', calculateTotal);
-        });
-
-        // Первый вызов для отображения 0
+        document.querySelectorAll('.service').forEach(cb => cb.addEventListener('change', calculateTotal));
         calculateTotal();
     });
 </script>
