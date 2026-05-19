@@ -50,6 +50,7 @@ def create_form(
     email: str = Form(""),
     mini_bar: bool = Form(False),
     transfer: bool = Form(False),
+    peoples: str = Form(...),
     db: Session = Depends(get_db)
 ):
     price=0

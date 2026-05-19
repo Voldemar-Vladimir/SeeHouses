@@ -1,0 +1,7 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: #e0eaf5;
+    background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.2) 2%, transparent 2.5%);
+    background-size: 28px 28px;
+    color: #1E2A32;
+}
