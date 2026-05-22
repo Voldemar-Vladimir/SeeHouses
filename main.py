@@ -8,6 +8,7 @@ from models import SessionLocal, Booking
 from fastapi import FastAPI, HTTPException, Form, Depends, Request
 from pydantic import BaseModel, Field
 from mako.lookup import TemplateLookup
+import requests
 
 def get_db():
     db = SessionLocal()
@@ -86,6 +87,8 @@ def create_form(
     )
     db.add(booking)
     db.commit()
+    message = f"Новый заказ!\nДом №{home_id}\nИмя: {name}\nТелефон: {phone}\nДаты: {check_in} – {check_out}\nГостей: {peoples}\nСумма: {price}₽"
+    RostovHomes(message)
     return RedirectResponse(url="/success", status_code=303)
 
 @app.get("/success")
@@ -107,5 +110,13 @@ def show_booking_form(request: Request, home_id: int = None):
         price_per_day=home["price_per_day"]
     ))
 
+def RostovHomes(message):
+    token = "8601793998:AAH0Kqg5_eR9rccweqscC3EVAIiwHovmq7A"
+    chat_id = "5977647337"
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    data = {"chat_id": chat_id, "text": message}
+    try:
+        requests.post(url, json=data, timeout=5)
+    except:pass
 if __name__ == "__main__":
     uvicorn.run(app)

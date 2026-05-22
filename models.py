@@ -20,7 +20,7 @@ class Booking(Base):
     total_price = Column(Integer)
     status = Column(String, default='new')
     created_at = Column(DateTime, default=datetime.utcnow)
-    peoples = Column(String)   # сколько человек
-    # city удалён
+    peoples = Column(String)
+
 
 Base.metadata.create_all(bind=engine)
