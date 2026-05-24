@@ -1,6 +1,5 @@
 import uvicorn
 import datetime
-from Admin_Info import admin_info
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
@@ -12,8 +11,7 @@ from pydantic import BaseModel, Field
 from mako.lookup import TemplateLookup
 import requests
 
-admin_name, admin_password = admin_info()[0]
-admin_name1, admin_password1 = admin_info()[1]
+
 
 security = HTTPBasic()
 
@@ -120,17 +118,6 @@ def RostovHomes(message):
     try:
         requests.post(url, json=data, timeout=5)
     except:pass
-
-@app.get("/admin")
-def admin(db: Session = Depends(get_db),credentials: HTTPBasicCredentials = Depends(security)):
-    bookings = db.query(Booking).order_by(Booking.created_at.desc()).all()
-    if (credentials.username==admin_name and credentials.password==admin_password) or (credentials.username==admin_name1 and credentials.password==admin_password1):
-        template = template_lookup.get_template("admin.html")
-        return HTMLResponse(template.render(
-            bookings=bookings
-        ))
-    else:
-        raise HTTPException(status_code=401, detail="Неверный логин или пароль")
 
 if __name__ == "__main__":
     uvicorn.run(app)

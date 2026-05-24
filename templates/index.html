@@ -35,27 +35,19 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Домик №${home['id']}</h5>
                     <ul class="list-unstyled">
-                        <!-- Цена: монеты -->
                         <li class="mb-2"><i class="bi bi-cash-coin text-success"></i> <strong>${home['price_per_day']} ₽/сут</strong></li>
-                        <!-- Расстояние до моря: волна -->
                         <li class="mb-2"><i class="bi bi-water text-primary"></i> До моря: ${home['distance_to_sea']} м</li>
-                        <!-- Комнаты: дверь открытая -->
                         <li class="mb-2"><i class="bi bi-door-open"></i> Комнат: ${home['rooms']}</li>
-                        <!-- Бассейн: волна (или капля) -->
                         <li class="mb-2">
                             <i class="bi ${'bi-water' if home['pool'] else 'bi-water text-muted'}"></i>
                             Бассейн: ${'✅' if home['pool'] else '❌'}
                         </li>
-                        <!-- Телевизор -->
                         <li class="mb-2"><i class="bi bi-tv"></i> Телевизор</li>
-                        <!-- Wi-Fi -->
                         <li class="mb-2"><i class="bi bi-wifi"></i> Wi-Fi</li>
-                        <!-- Батут: человек с поднятыми руками -->
                         <li class="mb-2">
                             <i class="bi ${'bi-person-arms-up' if home.get('batut') else 'bi-person-arms-up text-muted'}"></i>
                             Батут: ${'✅' if home.get('batut') else '❌'}
                         </li>
-                        <!-- Рейтинг: звёзды иконками (но числовое значение оставим) -->
                         <li class="mb-2">
                             <span class="rating-stars">
                                 ${''.join(['<i class="bi bi-star-fill text-warning"></i>' for _ in range(int(home['rating']))])}
