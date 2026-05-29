@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📅 Бронирование домика</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -24,7 +25,7 @@
                     <div class="carousel-inner rounded-4 shadow">
                         % for idx, img in enumerate(img_rooms):
                         <div class="carousel-item ${'active' if idx==0 else ''}">
-                            <img src="${img}" class="d-block w-100" style="height: 320px; object-fit: cover;" alt="Комната">
+                            <img src="${img}" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Комната">
                         </div>
                         % endfor
                     </div>
@@ -42,28 +43,28 @@
 
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-calendar-check"></i> Заезд</label>
-                    <input type="text" name="check_in" id="check_in" class="form-control" placeholder="Выберите дату заезда" required>
+                    <label class="form-label fs-5"><i class="bi bi-calendar-check"></i> Заезд</label>
+                    <input type="text" name="check_in" id="check_in" class="form-control form-control-lg" placeholder="Выберите дату заезда" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-calendar-x"></i> Выезд</label>
-                    <input type="text" name="check_out" id="check_out" class="form-control" placeholder="Выберите дату выезда" required>
+                    <label class="form-label fs-5"><i class="bi bi-calendar-x"></i> Выезд</label>
+                    <input type="text" name="check_out" id="check_out" class="form-control form-control-lg" placeholder="Выберите дату выезда" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-person"></i> Имя</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <label class="form-label fs-5"><i class="bi bi-person"></i> Имя</label>
+                    <input type="text" name="name" class="form-control form-control-lg" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-phone"></i> Телефон</label>
-                    <input type="tel" name="phone" class="form-control" required>
+                    <label class="form-label fs-5"><i class="bi bi-phone"></i> Телефон</label>
+                    <input type="tel" name="phone" class="form-control form-control-lg" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-envelope"></i> Email</label>
-                    <input type="email" name="email" class="form-control">
+                    <label class="form-label fs-5"><i class="bi bi-envelope"></i> Email</label>
+                    <input type="email" name="email" class="form-control form-control-lg">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-geo-alt"></i> Сколько человек?</label>
-                    <select name="peoples" class="form-select">
+                    <label class="form-label fs-5"><i class="bi bi-geo-alt"></i> Сколько человек?</label>
+                    <select name="peoples" class="form-select form-select-lg">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -75,11 +76,11 @@
 
                 <h5 class="mt-4"><i class="bi bi-plus-circle"></i> Дополнительно</h5>
                 <div class="d-flex flex-wrap gap-2 mt-2">
-                    <div class="form-check service-check">
+                    <div class="form-check service-check fs-5">
                         <input class="form-check-input service" type="checkbox" name="mini_bar" data-price="4000" id="miniBar">
                         <label class="form-check-label" for="miniBar">🍷 Мини-бар</label>
                     </div>
-                    <div class="form-check service-check">
+                    <div class="form-check service-check fs-5">
                         <input class="form-check-input service" type="checkbox" name="transfer" id="transfer" data-price="1500">
                         <label class="form-check-label" for="transfer">🚗 Доставка гостей в дом из Ростовской области</label>
                     </div>

@@ -147,5 +147,17 @@ def cancel(password,booking_id, db: Session = Depends(get_db)):
     db.commit()
     return RedirectResponse(url=f"/admin/{password}", status_code=303)
 
+@app.get("/login")
+def login_page(request: Request):
+    template = template_lookup.get_template("login.html")
+    return HTMLResponse(template.render())
+
+@app.post("/login")
+def login_check(pin: str = Form(...)):
+    if pin == secret_key:
+        return RedirectResponse(url=f"/admin/{secret_key}", status_code=303)
+    else:
+        return RedirectResponse(url="/login", status_code=303)
+
 if __name__ == "__main__":
     uvicorn.run(app)
