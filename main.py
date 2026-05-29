@@ -10,8 +10,9 @@ from fastapi import FastAPI, HTTPException, Form, Depends, Request
 from pydantic import BaseModel, Field
 from mako.lookup import TemplateLookup
 import requests
+from Admin_Info import secret
 
-
+secret_key = secret()
 
 security = HTTPBasic()
 
@@ -118,6 +119,33 @@ def RostovHomes(message):
     try:
         requests.post(url, json=data, timeout=5)
     except:pass
+
+@app.get("/admin/{password}")
+def admin(password,db: Session = Depends(get_db)):
+    if password == secret_key:
+        bookings=db.query(Booking).order_by(Booking.created_at.desc()).all()
+        template = template_lookup.get_template("admin.html")
+        return HTMLResponse(template.render(bookings=bookings,password=password))
+    else:
+        raise HTTPException(404)
+
+@app.get("/admin/{password}/confirm/{booking_id}")
+def confirm(password,booking_id, db: Session = Depends(get_db)):
+    if password != secret_key: raise HTTPException(404)
+    booking = db.query(Booking).get(booking_id)
+    if not booking: raise HTTPException(404)
+    booking.status = "confirmed"
+    db.commit()
+    return RedirectResponse(url=f"/admin/{password}", status_code=303)
+
+@app.get("/admin/{password}/cancel/{booking_id}")
+def cancel(password,booking_id, db: Session = Depends(get_db)):
+    if password != secret_key: raise HTTPException(404)
+    booking = db.query(Booking).get(booking_id)
+    if not booking: raise HTTPException(404)
+    booking.status = "cancelled"
+    db.commit()
+    return RedirectResponse(url=f"/admin/{password}", status_code=303)
 
 if __name__ == "__main__":
     uvicorn.run(app)
