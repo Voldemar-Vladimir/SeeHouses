@@ -183,5 +183,16 @@ def support_send(
     RostovHomes(msg)
     return RedirectResponse(url="/success", status_code=303)
 
+reviews_data = [
+    {"name": "Марина", "date": "12 мая 2026", "rating": 5, "text": "Отдыхали с семьёй, очень понравилось! Дом чистый, удобный, до моря рукой подать. Обязательно вернёмся.", "answer": "Спасибо, Марина! Ждём вас снова!"},
+    {"name": "Алексей", "date": "3 мая 2026", "rating": 4, "text": "Хороший дом, но телевизор староват. А так всё отлично.", "answer": "Алексей, спасибо за отзыв! Телевизор уже заменили."},
+    {"name": "Ольга", "date": "20 апреля 2026", "rating": 5, "text": "Превосходное место! Рекомендую."},
+]
+
+@app.get("/reviews")
+def reviews_page(request: Request):
+    template = template_lookup.get_template("reviews.html")
+    return HTMLResponse(template.render(reviews=reviews_data))
+
 if __name__ == "__main__":
     uvicorn.run(app)

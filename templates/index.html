@@ -16,9 +16,14 @@
         <a class="navbar-brand fw-bold" href="/">
             🏖️ Домики у моря
         </a>
-        <a href="/login" class="btn btn-outline-info btn-sm rounded-pill">
-            🔑 для админов
-        </a>
+        <div>
+            <a href="/reviews" class="btn btn-outline-warning btn-sm rounded-pill me-2">
+                <i class="bi bi-star-fill"></i> Отзывы
+            </a>
+            <a href="/login" class="btn btn-outline-info btn-sm rounded-pill">
+                🔑 для админов
+            </a>
+        </div>
     </div>
 </nav>
 
@@ -41,16 +46,19 @@
                         <li class="mb-2"><i class="bi bi-cash-coin text-success"></i> <strong>${home['price_per_day']} ₽/сут</strong></li>
                         <li class="mb-2"><i class="bi bi-water text-primary"></i> До моря: ${home['distance_to_sea']} м</li>
                         <li class="mb-2"><i class="bi bi-door-open"></i> Комнат: ${home['rooms']}</li>
+                        % if home['pool']:
                         <li class="mb-2">
-                            <i class="bi ${'bi-water' if home['pool'] else 'bi-water text-muted'}"></i>
-                            Бассейн: ${'✅' if home['pool'] else '❌'}
+                            <i class="bi bi-water"></i> Бассейн
                         </li>
+                        % endif
                         <li class="mb-2"><i class="bi bi-tv"></i> Телевизор</li>
                         <li class="mb-2"><i class="bi bi-wifi"></i> Wi-Fi</li>
+                        <li class="mb-2"><i class="bi bi-fire"></i> Монгал</li>
+                        % if home.get('batut'):
                         <li class="mb-2">
-                            <i class="bi ${'bi-person-arms-up' if home.get('batut') else 'bi-person-arms-up text-muted'}"></i>
-                            Батут: ${'✅' if home.get('batut') else '❌'}
+                            <i class="bi bi-person-arms-up"></i> Батут
                         </li>
+                        % endif
                         <li class="mb-2">
                             <span class="rating-stars">
                                 ${''.join(['<i class="bi bi-star-fill text-warning"></i>' for _ in range(int(home['rating']))])}
@@ -64,24 +72,25 @@
         </div>
         % endfor
     </div>
+
+    <div class="text-center mt-4">
+        <a href="/support" class="btn btn-outline-primary btn-lg rounded-pill me-2">
+            <i class="bi bi-headset"></i> Поддержка
+        </a>
+    </div>
+
+    <div class="container py-4 text-center">
+        <h5><i class="bi bi-search"></i> Проверить статус заказа</h5>
+        <form action="/track" method="get" class="d-flex justify-content-center mt-2">
+            <input type="text" name="booking_id" class="form-control w-auto me-2" placeholder="Номер заказа" required>
+            <button type="submit" class="btn btn-outline-primary rounded-pill"><i class="bi bi-arrow-right-circle"></i> Проверить</button>
+        </form>
+    </div>
 </div>
 
-<!-- 🔍 Проверка статуса заказа -->
-<div class="container py-4 text-center">
-    <h5><i class="bi bi-search"></i> Проверить статус заказа</h5>
-    <form action="/track" method="get" class="d-flex justify-content-center mt-2">
-        <input type="text" name="booking_id" class="form-control w-auto me-2" placeholder="Номер заказа" required>
-        <button type="submit" class="btn btn-outline-primary rounded-pill"><i class="bi bi-arrow-right-circle"></i> Проверить</button>
-    </form>
-</div>
-<div class="text-center mt-4">
-    <a href="/support" class="btn btn-outline-primary btn-lg rounded-pill me-2">
-        <i class="bi bi-headset"></i> Поддержка
-    </a>
-</div>
 <footer class="text-center py-4 mt-5">
     <div class="container">
-        <small>© 2029 Домики у моря — отдых, который запомнится</small>
+        <small>© 2026 Домики у моря — отдых, который запомнится</small>
     </div>
 </footer>
 
