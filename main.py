@@ -10,7 +10,7 @@ from fastapi import FastAPI, HTTPException, Form, Depends, Request
 from pydantic import BaseModel, Field
 from mako.lookup import TemplateLookup
 import requests
-from Admin_Info import secret
+from Admin_Info import token,chat_id,secret
 
 secret_key = secret()
 
@@ -32,10 +32,7 @@ homes = [
      "img": "/static/img/home1.png",
      "img_room": ["/static/img/home1_room1.png", "/static/img/home1_room2.png", "/static/img/home1_room3.png"],
      "tv": True, "wifi": True, "batut": False, "rating": 4.99},
-    {"id": 2, "price_per_day": 3000, "distance_to_sea": 600, "rooms": 2, "pool": False,
-     "img": "/static/img/home2.png",
-     "img_room": ["/static/img/home2_room1.png", "/static/img/home2_room2.png"],
-     "tv": True, "wifi": True, "batut": True, "rating": 4.89}
+
 ]
 
 @app.get("/")
@@ -113,8 +110,8 @@ def show_booking_form(request: Request, home_id: int = None):
     ))
 
 def RostovHomes(message):
-    token = "8601793998:AAH0Kqg5_eR9rccweqscC3EVAIiwHovmq7A"
-    chat_id = "5977647337"
+    token = token()
+    chat_id = chat_id()
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     data = {"chat_id": chat_id, "text": message}
     try:

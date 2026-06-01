@@ -20,8 +20,8 @@
             <a href="/reviews" class="btn btn-outline-warning btn-sm rounded-pill me-2">
                 <i class="bi bi-star-fill"></i> Отзывы
             </a>
-            <a href="/login" class="btn btn-outline-info btn-sm rounded-pill">
-                🔑 для админов
+            <a href="/support" class="btn btn-outline-primary btn-sm rounded-pill me-2">
+                <i class="bi bi-headset"></i> Поддержка
             </a>
         </div>
     </div>
@@ -33,9 +33,9 @@
         <p class="lead text-secondary">Выберите домик и забронируйте даты отдыха</p>
     </div>
 
-    <div class="row">
+    <div class="row justify-content-center">
         % for home in homes:
-        <div class="col-md-6 mb-4">
+        <div class="col-md-8 col-lg-6 mb-4">
             <div class="card h-100">
                 <a href="/booking?home_id=${home['id']}">
                     <img src="${home['img']}" class="card-img-top" alt="Домик ${home['id']}">
@@ -53,7 +53,7 @@
                         % endif
                         <li class="mb-2"><i class="bi bi-tv"></i> Телевизор</li>
                         <li class="mb-2"><i class="bi bi-wifi"></i> Wi-Fi</li>
-                        <li class="mb-2"><i class="bi bi-fire"></i> Монгал</li>
+                        <li class="mb-2"><i class="bi bi-fire"></i> Мангал</li>
                         % if home.get('batut'):
                         <li class="mb-2">
                             <i class="bi bi-person-arms-up"></i> Батут
@@ -73,18 +73,17 @@
         % endfor
     </div>
 
-    <div class="text-center mt-4">
-        <a href="/support" class="btn btn-outline-primary btn-lg rounded-pill me-2">
-            <i class="bi bi-headset"></i> Поддержка
-        </a>
-    </div>
-
     <div class="container py-4 text-center">
         <h5><i class="bi bi-search"></i> Проверить статус заказа</h5>
         <form action="/track" method="get" class="d-flex justify-content-center mt-2">
-            <input type="text" name="booking_id" class="form-control w-auto me-2" placeholder="Номер заказа" required>
+            <input type="text" name="booking_id" class="form-control w-auto me-2" placeholder="         Номер заказа" required>
             <button type="submit" class="btn btn-outline-primary rounded-pill"><i class="bi bi-arrow-right-circle"></i> Проверить</button>
         </form>
+        <div class="mt-3">
+            <a href="/login" class="btn btn-outline-info btn-sm rounded-pill">
+                🔑 для админов
+            </a>
+        </div>
     </div>
 </div>
 

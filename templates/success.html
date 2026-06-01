@@ -10,6 +10,55 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+
+% if all:
+<!-- Блок с номером заказа на весь экран -->
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="text-center">
+        <div class="checkmark mb-4">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+        </div>
+        <h1 class="display-4 fw-bold">Заказ принят!</h1>
+        <p class="lead mt-3">Спасибо, ${all.name}!</p>
+        <div class="my-5">
+            <p class="text-muted">Номер вашего заказа</p>
+            <p class="display-1 fw-bold text-primary">№${all.id}</p>
+        </div>
+        <p class="fs-4 text-danger fw-bold"><i class="bi bi-exclamation-circle"></i> Запомните или запишите этот номер!</p>
+        <p class="text-muted">По нему вы сможете проверить статус заказа на главной странице.</p>
+        <a href="#details" class="btn btn-outline-primary btn-lg rounded-pill mt-3">
+            <i class="bi bi-arrow-down"></i> Посмотреть детали
+        </a>
+    </div>
+</div>
+
+<!-- Детали заказа (ниже) -->
+<div id="details" class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">📋 Детали заказа</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><strong>🏠 Дом:</strong> №${all.home_id}</li>
+                        <li class="mb-2"><strong>📅 Даты:</strong> ${all.check_in} – ${all.check_out}</li>
+                        <li class="mb-2"><strong>👥 Гостей:</strong> ${all.peoples}</li>
+                        <li class="mb-2"><strong>🍷 Мини-бар:</strong> ${'Да' if all.mini_bar else 'Нет'}</li>
+                        <li class="mb-2"><strong>🚗 Трансфер:</strong> ${'Да' if all.transfer else 'Нет'}</li>
+                        <li class="mb-2"><strong>💰 Сумма:</strong> <span class="text-success fw-bold">${all.total_price} ₽</span></li>
+                        <li class="mb-2"><strong>📌 Статус:</strong> <span class="badge bg-info">${all.status}</span></li>
+                    </ul>
+                    <a href="/" class="btn btn-primary rounded-pill px-4">
+                        <i class="bi bi-house-door"></i> На главную
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+% else:
+<!-- Если заказ не найден (старая версия) -->
 <div class="container d-flex align-items-center justify-content-center min-vh-100">
     <div class="col-12 col-md-6">
         <div class="success-card">
@@ -17,30 +66,15 @@
                 <i class="bi bi-check-lg"></i>
             </div>
             <h1 class="display-5 fw-bold">Заказ принят!</h1>
-
-            % if all:
-                <p class="lead mt-3">Спасибо, ${all.name}! Ваш заказ <strong>№${all.id}</strong> успешно оформлен.</p>
-                <hr>
-                <ul class="list-unstyled text-start">
-                    <li><strong>🏠 Дом:</strong> №${all.home_id}</li>
-                    <li><strong>📅 Даты:</strong> ${all.check_in} – ${all.check_out}</li>
-                    <li><strong>👥 Гостей:</strong> ${all.peoples}</li>
-                    <li><strong>🍷 Мини-бар:</strong> ${'Да' if all.mini_bar else 'Нет'}</li>
-                    <li><strong>🚗 Трансфер:</strong> ${'Да' if all.transfer else 'Нет'}</li>
-                    <li><strong>💰 Сумма:</strong> <span class="text-success fw-bold">${all.total_price} ₽</span></li>
-                    <li><strong>📌 Статус:</strong> <span class="badge bg-info">${all.status}</span></li>
-                </ul>
-                <p class="mt-3"><i class="bi bi-info-circle"></i> Вы можете проверить статус заказа на главной странице, введя номер заказа.</p>
-            % else:
-                <p class="lead mt-3">Мы свяжемся с вами в ближайшее время.<br>Подтверждение отправлено на почту.</p>
-            % endif
-
-            <hr>
+            <p class="lead mt-3">Мы свяжемся с вами в ближайшее время.<br>Подтверждение отправлено на почту.</p>
             <a href="/" class="btn btn-primary btn-lg rounded-pill px-5">
                 <i class="bi bi-house-door"></i> На главную
             </a>
         </div>
     </div>
 </div>
+% endif
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
