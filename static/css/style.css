@@ -1,7 +1,98 @@
 body {
+    background-color: #fdf5e6; /* тёплый кремовый */
     font-family: 'Inter', sans-serif;
-    background: #e0eaf5;
-    background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.2) 2%, transparent 2.5%);
-    background-size: 28px 28px;
-    color: #1E2A32;
+}
+
+.navbar {
+    background-color: #3e2723 !important; /* тёмно-коричневый */
+}
+
+.navbar-brand {
+    color: #fff !important;
+}
+
+.navbar a.btn-outline-warning,
+.navbar a.btn-outline-primary,
+.navbar a.btn-outline-info {
+    border-color: #fff;
+    color: #fff;
+}
+
+.navbar a.btn-outline-warning:hover,
+.navbar a.btn-outline-primary:hover,
+.navbar a.btn-outline-info:hover {
+    background-color: #fff;
+    color: #3e2723;
+}
+
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    background-color: #fff;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.card-title {
+    color: #3e2723;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.card ul li {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.btn-success {
+    background-color: #f57c00;
+    border-color: #f57c00;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background-color: #e65100;
+    border-color: #e65100;
+}
+
+.btn-outline-primary,
+.btn-outline-warning,
+.btn-outline-info {
+    color: #3e2723;
+    border-color: #3e2723;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-warning:hover,
+.btn-outline-info:hover {
+    background-color: #3e2723;
+    color: #fff;
+}
+
+footer {
+    background-color: #3e2723;
+    color: #fff;
+}
+
+footer small {
+    color: #fff;
+}
+
+/* Отзывы */
+.card.shadow-sm {
+    background-color: #fff;
+}
+
+.rating-stars i {
+    color: #f57c00;
+}
+
+/* Форма бронирования */
+.alert-warning {
+    background-color: #fff3e0;
+    border-color: #ff9800;
+    color: #3e2723;
 }
