@@ -114,8 +114,9 @@ def RostovHomes(message):
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     data = {"chat_id": chat_id, "text": message}
     try:
-        requests.post(url, json=data, timeout=5)
-    except:pass
+        requests.post(url, json=data, timeout=5, proxies={"http": None, "https": None})
+    except Exception as e:
+        print(f"Ошибка отправки в Telegram: {e}")
 
 @app.get("/admin/{password}")
 def admin(password,db: Session = Depends(get_db)):
