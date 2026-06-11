@@ -21,10 +21,11 @@
         <input type="hidden" name="home_id" value="${home_id}">
         <div class="row mt-4">
             <div class="col-md-6 mb-4">
+                <!-- КАРУСЕЛЬ ФОТОГРАФИЙ -->
                 <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner rounded-4 shadow">
                         % for idx, img in enumerate(img_rooms):
-                        <div class="carousel-item ${'active' if idx==0 else ''}">
+                        <div class="carousel-item ${'active' if idx == 0 else ''}">
                             <img src="${img}" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Комната">
                         </div>
                         % endfor
@@ -97,7 +98,7 @@
                     • Заезд с 12:00, выезд до 14:00<br>
                     • Курить в доме можно<br>
                     • Шуметь можно до 22:00<br>
-                    • Количество гостей должно совпадать с заявленным<br>
+                    • Количество гостей должно совпадать с заявленным
                 </div>
 
                 <button type="submit" class="btn btn-success w-100 mt-4 rounded-pill py-3 fs-5">
@@ -112,10 +113,15 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
 <script>
+    // Mako вставляет значения один раз, без конфликта
+    const homeId = ${home_id};
+    const pricePerDay = ${price_per_day};
+
+    let check_out_picker = null;
+
     function calculateTotal() {
         let checkIn = document.getElementById('check_in').value;
         let checkOut = document.getElementById('check_out').value;
-        let pricePerDay = parseInt('${price_per_day}');
         let days = 0;
         if (checkIn && checkOut) {
             let dateIn = new Date(checkIn);
@@ -131,25 +137,57 @@
         document.getElementById('totalPrice').innerText = total > 0 ? total : 0;
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        flatpickr("#check_in", {
-            locale: "ru",
-            dateFormat: "Y-m-d",
-            minDate: "today",
-            onChange: function(selectedDates, dateStr, instance) {
-                if (check_out_flatpickr) check_out_flatpickr.set('minDate', dateStr);
-                calculateTotal();
-            }
+    fetch('/api/blocked_dates/' + homeId)
+        .then(response => response.json())
+        .then(data => {
+            const blockedDates = data.blocked;
+            const commonConfig = {
+                locale: "ru",
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                disable: blockedDates
+            };
+            flatpickr("#check_in", {
+                ...commonConfig,
+                onChange: function(selectedDates, dateStr, instance) {
+                    if (check_out_picker) {
+                        check_out_picker.set('minDate', dateStr);
+                    }
+                    calculateTotal();
+                }
+            });
+            check_out_picker = flatpickr("#check_out", {
+                ...commonConfig,
+                onChange: calculateTotal
+            });
+            document.querySelectorAll('.service').forEach(cb => cb.addEventListener('change', calculateTotal));
+            calculateTotal();
+        })
+        .catch(err => {
+            console.error('Ошибка загрузки занятых дат:', err);
+            // Запасной вариант – календарь без блокировок
+            const fallbackConfig = {
+                locale: "ru",
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                disable: []
+            };
+            flatpickr("#check_in", {
+                ...fallbackConfig,
+                onChange: function(selectedDates, dateStr, instance) {
+                    if (check_out_picker) {
+                        check_out_picker.set('minDate', dateStr);
+                    }
+                    calculateTotal();
+                }
+            });
+            check_out_picker = flatpickr("#check_out", {
+                ...fallbackConfig,
+                onChange: calculateTotal
+            });
+            document.querySelectorAll('.service').forEach(cb => cb.addEventListener('change', calculateTotal));
+            calculateTotal();
         });
-        let check_out_flatpickr = flatpickr("#check_out", {
-            locale: "ru",
-            dateFormat: "Y-m-d",
-            minDate: "today",
-            onChange: calculateTotal
-        });
-        document.querySelectorAll('.service').forEach(cb => cb.addEventListener('change', calculateTotal));
-        calculateTotal();
-    });
 </script>
 </body>
 </html>

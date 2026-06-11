@@ -46,8 +46,24 @@
                         <li class="mb-2"><strong>🍷 Мини-бар:</strong> ${'Да' if all.mini_bar else 'Нет'}</li>
                         <li class="mb-2"><strong>🚗 Трансфер:</strong> ${'Да' if all.transfer else 'Нет'}</li>
                         <li class="mb-2"><strong>💰 Сумма:</strong> <span class="text-success fw-bold">${all.total_price} ₽</span></li>
-                        <li class="mb-2"><strong>📌 Статус:</strong> <span class="badge bg-info">${all.status}</span></li>
+                        <li class="mb-2"><strong>📌 Статус:</strong>
+                            <span class="badge ${'bg-success' if all.status == 'confirmed' else 'bg-warning'}">${all.status}</span>
+                        </li>
                     </ul>
+
+                    % if all.status != 'confirmed':
+                    <div class="alert alert-warning mt-3">
+                        ⚠️ Бронь ещё не подтверждена. Чтобы закрепить даты за собой, нажмите «Оплатить».
+                    </div>
+                    <a href="/fake_pay/${all.id}" class="btn btn-success w-100 rounded-pill py-2 mb-3">
+                        💳 Оплатить (закрепить место)
+                    </a>
+                    % else:
+                    <div class="alert alert-success mt-3">
+                        ✅ Бронь подтверждена! Даты закреплены за вами.
+                    </div>
+                    % endif
+
                     <a href="/" class="btn btn-primary rounded-pill px-4">
                         <i class="bi bi-house-door"></i> На главную
                     </a>
